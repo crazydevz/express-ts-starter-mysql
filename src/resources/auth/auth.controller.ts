@@ -12,7 +12,7 @@ import AuthService from './auth.service';
 class AuthController implements Controller {
 	public path = '/auth';
 	public router = Router();
-	private UserService = new UserService();
+	// private UserService = new UserService();
 	private AuthService = new AuthService();
 
 	constructor() {

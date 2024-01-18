@@ -1,5 +1,5 @@
 import express, { Application } from 'express';
-import mongoose from 'mongoose';
+// import mongoose from 'mongoose';
 import compression from 'compression';
 import cors from 'cors';
 import morgan from 'morgan';
@@ -7,6 +7,7 @@ import Controller from '@/utils/interfaces/controller.interface';
 import ErrorMiddleware from '@/middleware/error.middleware';
 import helmet from 'helmet';
 import path from 'path';
+import { MySql } from '@/utils/helpers/mysql';
 
 class App {
 	public express: Application;
@@ -47,18 +48,23 @@ class App {
 		this.express.use(ErrorMiddleware);
 	}
 
-	private initialiseDatabaseConnection(): void {
-		const { MONGO_USER, MONGO_PASSWORD, MONGO_PATH } = process.env;
+	// private initialiseDatabaseConnection(): void {
+	// 	const { MONGO_USER, MONGO_PASSWORD, MONGO_PATH } = process.env;
 
-		mongoose
-			.connect(`mongodb+srv://${MONGO_USER}:${MONGO_PASSWORD}${MONGO_PATH}`)
-			.then(() => {
-				console.log('DB Connected Successfully');
-			})
-			.catch(err => {
-				console.log('DB Connection Failed');
-				console.log(err);
-			});
+	// 	mongoose
+	// 		.connect(`mongodb+srv://${MONGO_USER}:${MONGO_PASSWORD}${MONGO_PATH}`)
+	// 		.then(() => {
+	// 			console.log('DB Connected Successfully');
+	// 		})
+	// 		.catch(err => {
+	// 			console.log('DB Connection Failed');
+	// 			console.log(err);
+	// 		});
+	// }
+
+	private async initialiseDatabaseConnection() {
+		MySql.getInstance();
+		MySql.createConnection();
 	}
 
 	public listen(): void {
